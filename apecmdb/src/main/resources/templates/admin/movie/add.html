@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-fragment">
+ <div class="container my-5">
+            <h2 class="mb-5">New Movie</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="#" th:action="@{/admin/movie/save}" th:object="${movie}" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label for="title" class="col-form-label">Title</label>
+                                <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Description">
+                                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="director" class="col-form-label">Director</label>
+                                <select class="form-control" th:field="*{director}">
+                                <option value="" disabled selected>Choose director</option>
+                                <option th:each="director : ${directors}" th:value="${director.id}" th:text="${director.directorName}">
+                                </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="genre" class="col-form-label">Genre</label>
+                                <select class="form-control" th:field="*{genre}">
+                                <option value="" disabled selected>Choose genre</option>
+                                <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.description}">
+                                </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="trailer" class="col-form-label">Trailer</label>
+                                <input type="text" th:field="*{trailer}" class="form-control" id="trailer" placeholder="Trailer link">
+                                <span th:if="${#fields.hasErrors('trailer')}" th:errors="*{trailer}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="image" class="col-form-label">Image</label>
+                                <input type="text" th:field="*{image}" class="form-control" id="image" placeholder="Image link">
+                                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="releaseDate" class="col-form-label">Release date</label>
+                                <input type="date" th:field="*{releaseDate}" class="form-control" id="releaseDate">
+                                <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="description" class="col-form-label">Description</label>
+                                <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-5">
+                                <input type="submit" class="btn btn-primary" value="Add Movie">
+                            </div>
+                        </div>    
+                    </form>
+  </div>
+</div>
+</div>
+</div>
+</body>

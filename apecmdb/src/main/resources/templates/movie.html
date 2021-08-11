@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+<link href="/css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+  <body>
+  <style th:inline="text">
+  	.background-container {
+  	background: url([[@{https://image.tmdb.org/t/p/original/} + ${movie.backdrop_path}]])	no-repeat center 1% fixed;
+  	}
+  	.background-container-bottom {
+  	background: url([[@{https://image.tmdb.org/t/p/original/} + ${movie.backdrop_path}]])	no-repeat center 10% fixed;
+  	}
+  </style>
+	<div th:replace="fragments/header :: header">
+	</div>
+	    <main role="main" class="container" th:object="${movie}">
+	    	<div class="background-container"></div>
+	    	<div class="content-container">
+	    	<div class="row">
+	    		<div class="col-sm-2 form-group"></div>
+	            <div class ="img-responsive custom-image col-sm-2 form-group"><img th:src="@{https://image.tmdb.org/t/p/w300/} + ${movie.poster_path}"/></div>
+	            	<div class="description col-sm-6 form-group">	            		
+	            		<h1 th:text="${movie.title} + '(' + ${releaseYear} + ')'"></h1>&nbsp;
+	            		<h2><center>Duracion: [[${movie.runtime}]] minutos</center></h2>&nbsp;
+	            		<th:block th:each="video, iter : ${videos}" th:if="${iter.index} == 0">
+	            		<center><a href="#videoPopup" id="videoLink" target="_blank" class="btn btn-outline-success">Trailer</a></center>
+	            		      <div id="videoPopup" class="mfp-hide embed-responsive embed-responsive-21by9">
+        <iframe class="mfp-iframe embed-responsive-item" width="854" height="480" th:src="@{https://www.youtube.com/embed/} + ${video.key}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+	            		</th:block>
+	            		<div class="row">
+	            		<div class="col-sm-12"><h2>Trama</h2>&nbsp;
+	            		<p th:text="${movie.overview}"></p></div></div>
+	            		<div class="row">
+	            			<div class="col-sm-4">
+	            				<center><button type="button" class="btn btn-outline-primary btn-circle-crew" id="director" disabled>
+	            				</button></center>
+	            			</div>
+	            			<div class="col-sm-4">
+	            				<center><button type="button" class="btn btn-outline-primary btn-circle-crew" id="screenplay" disabled>
+	            				</button></center>
+	            			</div>
+	            			<div class="col-sm-4">
+	            				<center><button type="button" class="btn btn-outline-primary btn-circle-crew" id="composer" disabled>
+	            				</button></center>
+	            			</div>
+	            		</div>
+	            		<div class="row">
+	            			<div class="col-sm-4">
+	            			<th:block th:each="crewMember : ${crew}" th:if="${crewMember.job} == 'Director'">
+	            			<h3>[[${crewMember.name}]]&nbsp;</h3>
+	            			</div>
+	            			</th:block>
+	            			<div class="col-sm-4">
+	            			<th:block th:each="crewMember : ${crew}" th:if="${crewMember.job} == 'Screenplay' OR ${crewMember.job} == 'Writer'">
+	            			<h3>[[${crewMember.name}]]&nbsp;</h3>
+	            			</th:block>
+	            			</div>
+	            			<div class="col-sm-4">
+	            			<th:block th:each="crewMember : ${crew}" th:if="${crewMember.job} == 'Original Music Composer'">
+	            			<h3>[[${crewMember.name}]]&nbsp;</h3>
+	            			</th:block>
+	            			</div>
+	            		</div>
+	            		<div class="row">
+	            			<h2>Titulos similares:</h2>
+	            			<div class="row justify-content-left">
+	            			<th:block th:each="similarMovie,iter : ${similarMovies}" th:if="${iter.index} < 6">
+	            			<div class="col-2 similar-movies">
+	            				<a th:href="@{/movie/{id}(id=${similarMovie.id})}"><img th:src="@{https://image.tmdb.org/t/p/w92/} 
+	            				+ ${similarMovie.poster_path}" /></a>
+	            				<a th:href="@{/movie/{id}(id=${similarMovie.id})}" th:text="${similarMovie.title}"></a></div>
+	            			</th:block>
+	            			</div>
+	            		</div>
+	            	</div>
+	             <div class="col-sm-2 form-group"></div>
+	        </div>
+
+            </div>
+            <div class="background-container-bottom">
+            </div>
+            <div class="content-container" id="cast-container"> 
+            <div class="row"><h1>Actores principales:</h1></div>
+            <div class="row justify-content-center">
+            	<th:block th:each="actor, iter : ${cast}" th:if="${iter.index} < 6">
+    			<div class="form-group col-md-2">
+            	<center><img th:if="${actor.profile_path} != null" class="actor-profile" th:src="@{https://image.tmdb.org/t/p/w154} + ${actor.profile_path}" />
+            	<img th:if="${actor.profile_path} == null" class="actor-profile" th:src="@{/img/empty-profile.jpg}" /></center>&nbsp;
+            	<h2>[[${actor.name}]]</h2>
+            	<h3 class="text-muted">[[${actor.character}]]</h3>
+            	</div>
+            	</th:block>
+            </div>
+            </div>
+            <div th:replace="fragments/footer :: footer"></div>
+        </main>
+        <script src="/js/video-popup.js"></script>
+  </body>
+</html>

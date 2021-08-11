@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-fragment">
+<div th:switch="${directors}">
+    <h2 th:case="null">No directors yet!</h2>
+        <div th:case="*">
+            <h2>Genres</h2>
+            <table class ="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Director Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="director: ${directors}">
+                    <td th:text="${director.id}"></td>
+                    <td th:text="${director.directorName}"></td>
+                    <td><a class="btn btn-secondary" th:href="@{/admin/director/update/{id}(id=${director.id})}">Edit</a>
+                    <a class="btn btn-secondary" th:href="@{/admin/director/delete/{id}(id=${director.id})}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <center><p><a class="btn btn-primary" href="/admin/director/add">Add Director</a></p></center>
+</div>
+</div>
+</body>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+</head>
+  <body>
+    <div id="body" th:fragment="header">
+        <nav class="navbar navbar-expand-md navbar-dark navbar-custom fixed-top">
+      <a class="navbar-brand" th:href="@{/}"><img src="/img/apecmdb-logo.png" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/search/}" method="get">
+          <input class="form-control mr-sm-2" type="text" placeholder="Titulo" aria-label="Search" id="search-bar" th:name="t">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+        	<li class="nav-item">
+        		<a class="nav-link" href="/signin" sec:authorize="isAnonymous()">Log in</a>
+        		<a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Log out</a>
+        	</li>
+        </ul>
+      </div>
+    </nav>
+    </div>
+  </body>
+</html>

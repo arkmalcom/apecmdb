@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+<link href="/css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+  <body>
+	<div th:replace="fragments/header :: header">
+	</div>
+	<main role="main" class="container-fluid">
+                    <div class="search-result-wrapper">
+                    <div class="row justify-content-left">
+                    <h1>Resultados:</h1>
+                    </div>
+                    <th:block th:each="movie, movieIter : ${movies}">
+                    <th:block th:each="releaseYear, yearIter : ${releaseYears}" th:if="${movieIter.index} == ${yearIter.index}">
+                    <div class="row justify-content-left">
+                    	<a th:href="@{/movie/{id}(id=${movie.id})}">
+	                    <div class="col-6 search-result">
+		                    <img th:if ="${movie.poster_path} != null" th:src="@{https://image.tmdb.org/t/p/w92/} + ${movie.poster_path}" />
+		                    <img th:if ="${movie.poster_path} == null" class="film-poster" th:src="@{/img/poster-placeholder.png}" />
+		                    <th:block th:text="${movie.title} + '(' + ${releaseYear} + ')'"></th:block>
+	                    </div></a>
+	                </div>
+	                <br>
+	                </th:block>
+		        	</th:block>
+		        	</div>      
+
+		        <div th:replace="fragments/footer :: footer"></div>
+	</main>
+  </body>
+</html>

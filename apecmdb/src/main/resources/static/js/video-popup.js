@@ -1,0 +1,3 @@
+	  $('#videoLink').magnificPopup({
+	    type:'inline'
+	  });         

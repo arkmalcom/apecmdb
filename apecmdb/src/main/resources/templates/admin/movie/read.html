@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-fragment">
+<div th:switch="${movies}">
+    <h2 th:case="null">No movies yet!</h2>
+        <div th:case="*">
+            <h2>Movies</h2>
+            <table class ="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Director</th>
+                        <th>Trailer</th>
+                        <th>Image</th>
+                        <th>Release Date</th>
+                        <th>Description</th>
+                        <th>Genre</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="movie: ${movies}">
+                    <td th:text="${movie.id}"></td>
+                    <td th:text="${movie.title}"></td>
+                    <td th:text="${movie.director.directorName}"></td>
+                    <td th:text="${movie.trailer}"></td>
+                    <td th:text="${movie.image}"></td>
+                    <td th:text="${movie.releaseDate}"></td>
+                    <td th:text="${movie.description}"></td>
+                    <td th:text="${movie.genre.description}"></td>                       
+                    <td><a class="btn btn-secondary" th:href="@{/admin/movie/update/{id}(id=${movie.id})}">Edit</a>
+                    <a class="btn btn-secondary" th:href="@{/admin/movie/delete/{id}(id=${movie.id})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <center><p><a class="btn btn-primary" href="/admin/movie/add">Add Movie</a></p></center>
+</div>
+</div>
+</body>

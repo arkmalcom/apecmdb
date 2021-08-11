@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+<link href="css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+  <body>
+	<div th:replace="fragments/header :: header">
+	</div>
+	<main role="main" class="container-fluid" th:object=${movies}>
+		<div class = "row justify-content-center">
+			<div id="carousel-popular" class="carousel slide carousel-fade" data-ride="carousel">
+			  <!--Indicators-->
+			  <ol class="carousel-indicators">
+			  <th:block th:each="movie, iter : ${movies}" th:if="${iter.index} == 0">
+			    <li data-target="#carousel-popular-1z" th:attr="data-slide-to=${iter.index}" class="active"></li>
+			    <th:block th:each="movie, iter : ${movies}" th:if="${iter.index} > 0 AND ${iter.index} < 5">
+			    	<li data-target="#carousel-popular-1z" th:attr="data-slide-to=${iter.index}"></li>
+			    </th:block>
+			  </ol>
+			  </th:block>
+			  <!--/.Indicators-->
+			  <!--Slides-->
+			  <div class="carousel-inner" role="listbox">
+			    <!--First slide-->
+			    <th:block th:each="movie,iter : ${movies}" th:if="${iter.index} == 0">
+			    <div class="carousel-item active">
+			    <a th:href="@{/movie/{id}(id=${movie.id})}">
+			      <img class="w-100 img-fluid" th:src="@{https://image.tmdb.org/t/p/w780/} + ${movie.backdrop_path}"
+			        alt="First slide">
+			        <div class="carousel-caption text-left">
+			        	<h1>Peliculas populares - [[${movie.title}]]</h1>
+			        </div>
+			   	</a>
+			    </div>
+
+			    </th:block>
+			    <!--/.First slide-->
+				<!--Main slide loop -->
+			    <th:block th:each="movie,iter : ${movies}" th:if="${iter.index} > 0 AND ${iter.index} < 5">
+			    <div class="carousel-item">
+			    <a th:href="@{/movie/{id}(id=${movie.id})}">
+			      <img class="w-100 img-fluid" th:src="@{https://image.tmdb.org/t/p/w780/} + ${movie.backdrop_path}">
+			      	<div class="carousel-caption text-left">
+			        	<h1>Peliculas populares - [[${movie.title}]]</h1>
+			        </div>
+			    </a>
+			    </div>
+			    </th:block>	
+				<!--/.Main slide loop -->
+			  </div>
+			  <!--/.Slides-->
+			  <!--Controls-->
+			  <a class="carousel-control-prev" onclick="$('#carousel-popular').carousel('prev')" role="button" data-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" onclick="$('#carousel-popular').carousel('next')" role="button" data-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+			  <!--/.Controls-->
+			</div>
+		</div>
+		<br>
+		<div class="row justify-content-center">
+		<div><h1>En cines:</h1></div>
+		</div>
+		<div class="row justify-content-center">
+			<th:block  th:each="upcomingMovie, iter: ${upcomingMovies}" th:if="${iter.index} < 6">
+			<a th:href="@{/movie/{id}(id=${upcomingMovie.id})}">
+			<div class="col-2 now-playing">
+				<img th:src="@{https://image.tmdb.org/t/p/w185/} + ${upcomingMovie.poster_path}" />
+				<p th:text="${upcomingMovie.title}"></p>
+			</div>
+			</a>
+			</th:block>
+		</div>
+		<div class="row justify-content-center">
+		<div><h1>Proximamente:</h1></div>
+		</div>
+		<div class="row justify-content-center">
+			<th:block th:each="movieProximamente, iter: ${proximamenteMovies}" th:if="${iter.index} < 6">
+			<a th:href="@{/movie/{id}(id=${movieProximamente.id})}">
+			<div class="col-2 now-playing">
+				<img th:src="@{https://image.tmdb.org/t/p/w185/} + ${movieProximamente.poster_path}" />
+				<p th:text="${movieProximamente.title}"></p>
+			</div>
+			</a>
+			</th:block>
+		</div>
+		<div th:replace="fragments/footer :: footer"></div>
+	</main>
+  </body>
+</html>

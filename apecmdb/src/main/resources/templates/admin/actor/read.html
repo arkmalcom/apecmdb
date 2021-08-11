@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="css/style.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-fragment">
+<div th:switch="${actors}">
+    <h2 th:case="null">No actors yet!</h2>
+        <div th:case="*">
+            <h2>Actors</h2>
+            <table class ="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Actor name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="actor: ${actors}">
+                    <td th:text="${actor.id}"></td>
+                    <td th:text="${actor.actorName}"></td>
+                    <td><a class="btn btn-secondary" th:href="@{/admin/actor/update/{id}(id=${actor.id})}">Edit</a>
+                    <a class="btn btn-secondary" th:href="@{/admin/actor/delete/{id}(id=${actor.id})}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <center><p><a class="btn btn-primary" href="/admin/actor/add">Add Actor</a></p></center>
+</div>
+</div>
+</body>
